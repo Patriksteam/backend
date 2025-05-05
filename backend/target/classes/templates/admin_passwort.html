@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Passwort</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="home.html">Zurück zur Startseite</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Admin Login</h1>
+        <form id="adminForm">
+            <label for="password">Passwort:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Einloggen</button>
+            <p id="error-message" style="color: red;"></p>
+        </form>
+    </main>
+
+    <footer>
+        <p>Zurück zur <a href="/home">Startseite</a>.</p>
+    </footer>
+
+    <script>
+        document.getElementById('adminForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Formular nicht absenden
+
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (password === "1234") {
+                window.location.href = "/admin"; // Weiterleitung zur Admin-Seite
+            } else {
+                errorMessage.textContent = "Falsches Passwort. Bitte erneut versuchen.";
+            }
+        });
+    </script>
+</body>
+</html>
+
