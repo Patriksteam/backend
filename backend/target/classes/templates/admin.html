@@ -1,10 +1,11 @@
+
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <title>Adminbereich</title>
-    <link rel="stylesheet" href="/styles.css">
-
+    <link rel="stylesheet" href="styles.css">
     <script>
         function resetDatabase() {
             fetch("/admin/reset-db", {
@@ -17,6 +18,16 @@
     </script>
 </head>
 <body>
+    <div class="container">
+        <h2>Adminbereich</h2>
+        <button onclick="resetDatabase()">Datenbank zurücksetzen</button>
+
+        <div class="link-button" style="margin-top: 20px;">
+            <a href="/home">Zur Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
 
 <h1>Adminbereich</h1>
 
