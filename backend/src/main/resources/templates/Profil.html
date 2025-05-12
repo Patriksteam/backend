@@ -3,31 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Login oder Registrierung</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Login oder Registrieren</h2>
-    
-    <!-- Login Form -->
-    <h3>Login</h3>
-    <form method="post" action="/login">
-        <input type="email" name="email" placeholder="E-Mail" required><br>
-        <input type="password" name="password" placeholder="Passwort" required><br>
-        <button type="submit">Login</button>
-    </form>
+    <div class="container">
+        <h2>Login oder Registrieren</h2>
 
-    <br>
+        <!-- Login Form -->
+        <h3>Login</h3>
+        <form method="post" action="/Login">
+            <input type="email" name="email" placeholder="E-Mail" required>
+            <input type="password" name="password" placeholder="Passwort" required>
+            <button type="submit">Login</button>
+        </form>
 
-    <!-- Registrierung Form -->
-    <h3>Registrieren</h3>
-    <form action="/userForm">
-        <button type="submit">Zur Registrierung</button>
-    </form>
+        <!-- Registrierung Button -->
+        <div class="link-button">
+            <form action="/userForm">
+                <button type="submit" style="background:white; color:black; border:1px solid #ccc;">Zur Registrierung</button>
+            </form>
+        </div>
 
-    <br>
+        <!-- Fehleranzeige -->
+        <p class="error">[[${error}]]</p>
 
-    <!-- Fehleranzeige, falls vorhanden -->
-    <p style="color:red;">[[${error}]]</p>
-    <a href="/home">Zur Homepage</a>
+        <!-- Link zur Homepage -->
+        <div class="link-button">
+            <a href="/home">Zur Homepage</a>
+        </div>
+    </div>
 </body>
 </html>
 
