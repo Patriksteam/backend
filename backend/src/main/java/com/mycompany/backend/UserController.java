@@ -51,27 +51,27 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public String addUser(@RequestParam String username, 
-                          @RequestParam String email,
-                          @RequestParam String password, 
-                          @RequestParam(required = false) String nachname,
-                          @RequestParam(required = false) String postleitzahl,
-                          @RequestParam(required = false) String adresse,
-                          @RequestParam(required = false) String hausnummer,
-                          Model model) {
-        // Erstelle einen neuen Benutzer und speichere ihn
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(password);  // Passwörter sollten verschlüsselt gespeichert werden (z.B. mit BCrypt)
-        user.setNachname(nachname);
-        user.setPostleitzahl(postleitzahl);
-        user.setAdresse(adresse);
-        user.setHausnummer(hausnummer);
-        user.setPassword(passwordEncoder.encode(password));
+public String addUser(@RequestParam String username, 
+                      @RequestParam String email,
+                      @RequestParam String password, 
+                      @RequestParam(required = false) String nachname,
+                      @RequestParam(required = false) String postleitzahl,
+                      @RequestParam(required = false) String adresse,
+                      @RequestParam(required = false) String hausnummer,
+                      Model model) {
+    // Erstelle einen neuen Benutzer und speichere ihn
+    User user = new User();
+    user.setUsername(username);
+    user.setEmail(email);
+    user.setPassword(passwordEncoder.encode(password));  // Passwort direkt verschlüsseln
+    user.setNachname(nachname);
+    user.setPostleitzahl(postleitzahl);
+    user.setAdresse(adresse);
+    user.setHausnummer(hausnummer);
 
-        userService.createUser(user);  // Benutzer speichern
+    userService.createUser(user);  // Benutzer speichern
 
-        return "redirect:/";  // Weiterleitung zur Startseite oder Login-Seite
-    }
+    return "redirect:/";  // Weiterleitung zur Startseite oder Login-Seite
+}
+
 }
