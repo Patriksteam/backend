@@ -68,6 +68,7 @@ public class UserController {
         user.setPostleitzahl(postleitzahl);
         user.setAdresse(adresse);
         user.setHausnummer(hausnummer);
+        user.setPassword(passwordEncoder.encode(password));
 
         userService.createUser(user);  // Benutzer speichern
 
