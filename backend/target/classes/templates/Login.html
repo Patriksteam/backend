@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>Willkommen, <span th:text="${user.username}">[Benutzername]</span>!</h2>
+
+    <h3>Deine Einkaufsliste:</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Artikel</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${shoppingList}">
+                <td th:text="${item}">[Artikelname]</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
 </html>
+
