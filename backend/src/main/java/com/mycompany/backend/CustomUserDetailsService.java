@@ -10,17 +10,17 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-   @Override
-public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    User user = userRepository.findByEmail(email)
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new UsernameNotFoundException("Benutzer nicht gefunden: " + email));
 
-    return org.springframework.security.core.userdetails.User.builder()
+        return org.springframework.security.core.userdetails.User.builder()
             .username(user.getEmail())
             .password(user.getPassword())
-            .roles(user.getRoles())  // Falls du eine dynamische Rollenverwaltung hast
+            .roles(user.getRoles().toArray(new String[0]))  // Ändere dies, um die Rollen als String Array zu übergeben
             .build();
+    }
 }
 
-}
 
