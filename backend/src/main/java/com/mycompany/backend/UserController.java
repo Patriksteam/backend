@@ -25,20 +25,7 @@ public class UserController {
         return "Profil";  // Zeigt die Profilseite (Login/Registrierung)
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestParam String email, 
-                            @RequestParam String password, 
-                            Model model) {
-        // Hier kannst du die Login-Logik implementieren, z.B. Benutzerprüfung und Passwortverifizierung
-        User user = userService.getUserByEmail(email);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {  // Verwende matches(), um das Passwort zu überprüfen
-            model.addAttribute("user", user);
-            return "redirect:/Login";  // Weiterleitung zur Benutzer-Startseite
-        } else {
-            model.addAttribute("error", "Ungültige E-Mail oder Passwort!");
-            return "profil";  // Zurück zur Login-Seite mit Fehlermeldung
-        }
-    }
+  
 
     @GetMapping("/userForm")
     public String showUserForm(Model model) {
