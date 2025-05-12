@@ -39,10 +39,15 @@ public class UserController {
         }
     }
 
-    @GetMapping("/userForm")
-    public String showUserForm(Model model) {
-        model.addAttribute("user", new User());
-        return "userForm";  // Zeigt das Registrierungsformular
+        @GetMapping("/userForm")
+        public String showUserForm(Model model) {
+            model.addAttribute("user", new User());
+            return "userForm";  // Zeigt das Registrierungsformular
+        }
+        @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("user", new User()); // User ist dein Datenmodell
+        return "Login";
     }
 
     @PostMapping("/addUser")
