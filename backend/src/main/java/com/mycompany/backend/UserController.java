@@ -33,7 +33,7 @@ public class UserController {
         User user = userService.getUserByEmail(email);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {  // Verwende matches(), um das Passwort zu überprüfen
             model.addAttribute("user", user);
-            return "redirect:/user/home";  // Weiterleitung zur Benutzer-Startseite
+            return "redirect:/Login";  // Weiterleitung zur Benutzer-Startseite
         } else {
             model.addAttribute("error", "Ungültige E-Mail oder Passwort!");
             return "profil";  // Zurück zur Login-Seite mit Fehlermeldung
