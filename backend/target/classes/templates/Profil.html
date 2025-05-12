@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Login oder Registrierung</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <div class="container">
+        <h2>Login oder Registrieren</h2>
+
+        <!-- Login Form -->
+        <h3>Login</h3>
+        <form method="post" action="/Login">
+            <input type="email" name="email" placeholder="E-Mail" required>
+            <input type="password" name="password" placeholder="Passwort" required>
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Registrierung Button -->
+        <div class="link-button">
+            <form action="/userForm">
+                <button type="submit" style="background:white; color:black; border:1px solid #ccc;">Zur Registrierung</button>
+            </form>
+        </div>
+
+        <!-- Fehleranzeige -->
+        <p class="error">[[${error}]]</p>
+
+        <!-- Link zur Homepage -->
+        <div class="link-button">
+            <a href="/home">Zur Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
