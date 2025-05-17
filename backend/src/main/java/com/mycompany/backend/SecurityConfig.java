@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.PathRequest;
 
 
 
@@ -20,11 +19,12 @@ public class SecurityConfig {
             .csrf() // CSRF bleibt aktiviert
                 .and()
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/", "/login", "/register", "/userForm", "/addUser").permitAll()
-                .requestMatchers(HttpMethod.POST, "/addUser").permitAll()
-                .anyRequest().authenticated()
-            )
+    .requestMatchers("/", "/login", "/register", "/userForm", "/addUser").permitAll()
+    .requestMatchers(HttpMethod.POST, "/addUser").permitAll()
+    .requestMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.svg", "/favicon.ico").permitAll()
+    .anyRequest().authenticated()
+)
+
             .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/profil", true)
