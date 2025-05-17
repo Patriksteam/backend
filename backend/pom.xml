@@ -129,6 +129,18 @@
                     </execution>
                 </executions>
             </plugin>
+    <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+      <version>3.2.0</version> <!-- oder passende Version für dein Projekt -->
+      <executions>
+        <execution>
+          <goals>
+            <goal>repackage</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
 
             <!-- Exec Maven Plugin (to run the application via Maven) -->
             <plugin>
