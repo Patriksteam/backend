@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.http.HttpMethod;
 
+
 @Configuration
 public class SecurityConfig {
 
@@ -18,11 +19,13 @@ public class SecurityConfig {
                 .and()
             .authorizeHttpRequests(authorize -> authorize
                 // Öffentliche Seiten & Ressourcen erlauben
+                    
                 .requestMatchers(
     "/", "/login", "/register", "/userForm", "/addUser", 
     "/css/**", "/js/**", "/images/**", "/favicon.ico",
     "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.svg"
 ).permitAll()
+            
 
                 // POST auf /addUser explizit erlauben
                 .requestMatchers(HttpMethod.POST, "/addUser").permitAll()
@@ -37,6 +40,7 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutSuccessUrl("/")  // Nach Logout auf Homepage
                 .permitAll()
+                    
             );
 
         return http.build();
