@@ -17,6 +17,8 @@ public class ErrorController {
     public String handleError(Exception e, Model model) {
         model.addAttribute("errorCode", "500");  // Beispiel für Fehlercode 500
         model.addAttribute("errorMessage", e.getMessage());  // Fehlernachricht
+        System.out.println("Error ig");
+        System.out.println(e);
         return "error";  // Fehlerseite wird angezeigt
     }
 
