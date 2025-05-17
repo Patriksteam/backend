@@ -8,27 +8,35 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.http.HttpMethod;
 
-
 @Configuration
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests(auth -> auth
-                .requestMatchers("/", "/login", "/profil","/addUser", "/userForm", "/css/**", "/js/**").permitAll()
-                    .requestMatchers(HttpMethod.POST,"/addUser").permitAll()
-
+            .csrf() // CSRF ist standardmäßig aktiviert, hier zur Klarstellung
+                .and()
+            .authorizeHttpRequests(authorize -> authorize
+                // Öffentliche Seiten & Ressourcen erlauben
+                .requestMatchers(
+                    "/", "/login", "/register", "/userForm", "/addUser", 
+                    "/css/**", "/js/**", "/images/**", "/favicon.ico", "/static/**"
+                ).permitAll()
+                // POST auf /addUser explizit erlauben
+                .requestMatchers(HttpMethod.POST, "/addUser").permitAll()
+                // Alle anderen Requests benötigen Authentifizierung
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")  // Spring Security verwaltet das Login
+                .loginPage("/login")       // Eigene Login-Seite (Controller muss vorhanden sein)
+                .defaultSuccessUrl("/profil", true)  // Nach erfolgreichem Login
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/")  // Nach Logout auf Homepage
                 .permitAll()
             );
+
         return http.build();
     }
 

@@ -11,11 +11,16 @@
 
         <!-- Login Form -->
         <h3>Login</h3>
-        <form method="post" action="/profil">
-            <input type="email" name="email" placeholder="E-Mail" required>
-            <input type="password" name="password" placeholder="Passwort" required>
-            <button type="submit">Login</button>
-        </form>
+        <form method="post" th:action="@{/profil}">
+    <input type="email" name="email" placeholder="E-Mail" required>
+    <input type="password" name="password" placeholder="Passwort" required>
+
+    <!-- CSRF Token -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <button type="submit">Login</button>
+</form>
+
 
         <!-- Registrierung Button -->
         <div class="link-button">
