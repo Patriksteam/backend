@@ -21,9 +21,8 @@ public class SecurityConfig {
                 // Öffentliche Seiten & Ressourcen erlauben
                     
                 .requestMatchers(
-    "/", "/login", "/register", "/userForm", "/addUser", 
-    "/static/**", "/js/**", "/images/**", "/favicon.ico",
-    "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.svg"
+    "/", "/login", "/register", "/userForm", "/addUser",
+        "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.svg", "/favicon.ico"
 ).permitAll()
             
 
