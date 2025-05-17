@@ -19,9 +19,11 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 // Öffentliche Seiten & Ressourcen erlauben
                 .requestMatchers(
-                    "/", "/login", "/register", "/userForm", "/addUser", 
-                    "/css/**", "/js/**", "/images/**", "/favicon.ico", "/static/**"
-                ).permitAll()
+    "/", "/login", "/register", "/userForm", "/addUser", 
+    "/css/**", "/js/**", "/images/**", "/favicon.ico",
+    "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.svg"
+).permitAll()
+
                 // POST auf /addUser explizit erlauben
                 .requestMatchers(HttpMethod.POST, "/addUser").permitAll()
                 // Alle anderen Requests benötigen Authentifizierung
