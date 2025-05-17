@@ -2,11 +2,12 @@ package com.mycompany.backend;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.http.HttpMethod;
+
 
 @Configuration
 public class SecurityConfig {
@@ -14,13 +15,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf() // CSRF ist standardmäßig aktiviert
-            .and()
+            .csrf() // CSRF bleibt aktiviert
+                .and()
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(
-                    "/", "/login", "/register", "/userForm", "/addUser",
-    "/**/*.css", "/**/*.png", "/favicon.ico"
-                ).permitAll()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .requestMatchers("/", "/login", "/register", "/userForm", "/addUser").permitAll()
+                .requestMatchers(HttpMethod.POST, "/addUser").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -41,4 +41,5 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
 

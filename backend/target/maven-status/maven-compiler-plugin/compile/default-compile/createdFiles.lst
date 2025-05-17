@@ -1,15 +1,9 @@
 com/mycompany/backend/ShoppingListService.class
 com/mycompany/backend/UserRepository.class
 com/mycompany/backend/DatabaseResetService.class
-com/mycompany/backend/GenerallController.class
 com/mycompany/backend/ShoppingList.class
-com/mycompany/backend/SecurityConfig.class
 com/mycompany/backend/AdminController.class
 com/mycompany/backend/User.class
-com/mycompany/backend/UserController.class
-com/mycompany/backend/HomeController.class
-com/mycompany/backend/CustomUserDetailsService.class
 com/mycompany/backend/UserService.class
-com/mycompany/backend/ErrorController.class
 com/mycompany/backend/Backend.class
 com/mycompany/backend/ShoppingListRepository.class
