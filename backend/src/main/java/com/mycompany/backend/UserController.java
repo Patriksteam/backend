@@ -20,9 +20,9 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;  // Injektion des PasswordEncoders
     }
 
-    @GetMapping("/Profil")
+    @GetMapping("/login")
     public String showProfilePage() {
-        return "Profil";  // Zeigt die Profilseite (Login/Registrierung)
+        return "login";  // Zeigt die Profilseite (Login/Registrierung)
     }
 
   

@@ -14,11 +14,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests(auth -> auth
-                .requestMatchers("/", "/profil", "/addUser", "/userForm", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/", "/login", "/addUser", "/userForm", "/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/profil")  // Spring Security verwaltet das Login
+                .loginPage("/login")  // Spring Security verwaltet das Login
                 .permitAll()
             )
             .logout(logout -> logout
