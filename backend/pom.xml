@@ -87,6 +87,21 @@
 
     <build>
         <plugins>
+            <plugin>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>exec-maven-plugin</artifactId>
+  <version>3.1.0</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>exec</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+    <mainClass>com.mycompany.backend.BackendApplication</mainClass>
+  </configuration>
+</plugin>
             <!-- Maven Compiler Plugin (Java version) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
