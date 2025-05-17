@@ -22,7 +22,7 @@ public class SecurityConfig {
                     
                 .requestMatchers(
     "/", "/login", "/register", "/userForm", "/addUser", 
-    "/css/**", "/js/**", "/images/**", "/favicon.ico",
+    "/static/**", "/js/**", "/images/**", "/favicon.ico",
     "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.svg"
 ).permitAll()
             
