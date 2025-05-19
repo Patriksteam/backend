@@ -36,11 +36,7 @@ public class UserController {
         return "userForm";  // Zeigt das Registrierungsformular
     }
 
-    @GetMapping("/profil")
-    public String showLoginForm(Model model) {
-        model.addAttribute("user", new User()); // User ist dein Datenmodell
-        return "profil";
-    }
+
 
     @PostMapping("/addUser")
    
@@ -68,13 +64,14 @@ public String addUser(@RequestParam String username,
     return "redirect:/";
 }
 
-    @GetMapping("/profil")
-        public String showProfile(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-    String email = userDetails.getUsername();  // E-Mail ist Benutzername
+   @GetMapping("/profil")
+public String showProfile(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    String email = userDetails.getUsername();
     User user = userService.getUserByEmail(email);
 
     model.addAttribute("user", user);
     model.addAttribute("shoppingList", shoppingListService.getShoppingListForUser(user));
-    return "profil"; // Zeigt profil.html
+    return "profil"; // profil.html
 }
+
 }
