@@ -14,28 +14,28 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf().disable() // Nur testweise! Später wieder aktivieren
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/admin/**").hasRole("ADMIN")
-            .requestMatchers("/profil").authenticated()
-            .requestMatchers("/", "/home", "/login", "/addUser", "/userForm", "/css/**", "/js/**").permitAll()
-            .anyRequest().authenticated()
-        )
-        .formLogin(form -> form
-            .loginPage("/login")
-            .defaultSuccessUrl("/profil", true)
-            .permitAll()
-        )
-        .logout(logout -> logout
-            .logoutSuccessUrl("/")
-            .permitAll()
-        );
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf() // CSRF bleibt aktiviert
+                .and()
+            .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers("/**").permitAll() // Nur zum Testen!
+   //.requestMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.svg", "/favicon.ico").permitAll()
+    .anyRequest().authenticated()
+)
 
-    return http.build();
-}
+            .formLogin(form -> form
+                .loginPage("/login")
+                .defaultSuccessUrl("/profil", true)
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutSuccessUrl("/")
+                .permitAll()
+            );
 
+        return http.build();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
