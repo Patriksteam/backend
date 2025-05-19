@@ -28,7 +28,7 @@ public class SecurityConfig {
           .loginPage("/login")
           .usernameParameter("email") // Hier ändern
           .passwordParameter("password")
-          .defaultSuccessUrl("/profil", true) 
+          
           .permitAll()
       )
             .logout(logout -> logout
