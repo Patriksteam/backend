@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fehler</title>
+    <link rel="stylesheet" href="/styles1.css">
+</head>
+<body>
+    <div class="error-container">
+        <h1>Etwas ist schiefgelaufen!</h1>
+        <p>Fehlercode: <strong th:text="${errorCode}">Error Code</strong></p>  <!-- Fehlercode wird hier angezeigt -->
+        <p>Wir haben ein unerwartetes Problem festgestellt. Bitte versuche es später noch einmal.</p>
+        <p>Details: <span th:text="${errorMessage}">Error Message</span></p>  <!-- Fehlermeldung wird hier angezeigt -->
+        <a href="/" class="home-link">Zurück zur Homepage</a>
+    </div>
+</body>
+</html>
+
