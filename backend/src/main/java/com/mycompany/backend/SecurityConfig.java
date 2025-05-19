@@ -25,10 +25,11 @@ public class SecurityConfig {
 )
 
             .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/profil", true)
-                .permitAll()
-            )
+          .loginPage("/login")
+          .usernameParameter("email") // Hier ändern
+          .passwordParameter("password")
+          .permitAll()
+      )
             .logout(logout -> logout
                 .logoutSuccessUrl("/")
                 .permitAll()
