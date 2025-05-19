@@ -5,6 +5,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 @Controller
 public class UserController {
@@ -40,26 +43,38 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public String addUser(@RequestParam String username, 
-                          @RequestParam String email,
-                          @RequestParam String password, 
-                          @RequestParam(required = false) String nachname,
-                          @RequestParam(required = false) String postleitzahl,
-                          @RequestParam(required = false) String adresse,
-                          @RequestParam(required = false) String hausnummer,
-                          Model model) {
-        // Erstelle einen neuen Benutzer und speichere ihn
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));  // Passwort direkt verschlüsseln
-        user.setNachname(nachname);
-        user.setPostleitzahl(postleitzahl);
-        user.setAdresse(adresse);
-        user.setHausnummer(hausnummer);
+   
+public String addUser(@RequestParam String username, 
+                      @RequestParam String email,
+                      @RequestParam String password, 
+                      @RequestParam(required = false) String nachname,
+                      @RequestParam(required = false) String postleitzahl,
+                      @RequestParam(required = false) String adresse,
+                      @RequestParam(required = false) String hausnummer,
+                      Model model) {
+    User user = new User();
+    user.setUsername(username);
+    user.setEmail(email);
+    user.setPassword(passwordEncoder.encode(password));
+    user.setNachname(nachname);
+    user.setPostleitzahl(postleitzahl);
+    user.setAdresse(adresse);
+    user.setHausnummer(hausnummer);
 
-        userService.createUser(user);  // Benutzer speichern
+    // 👉 Hier: Rolle setzen, damit Login funktioniert
+    user.setRoles("USER");
 
-        return "redirect:/";  // Weiterleitung zur Startseite oder Login-Seite
-    }
+    userService.createUser(user);
+    return "redirect:/";
+}
+
+    @GetMapping("/profil")
+        public String showProfile(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    String email = userDetails.getUsername();  // E-Mail ist Benutzername
+    User user = userService.getUserByEmail(email);
+
+    model.addAttribute("user", user);
+    model.addAttribute("shoppingList", shoppingListService.getShoppingListForUser(user));
+    return "profil"; // Zeigt profil.html
+}
 }
