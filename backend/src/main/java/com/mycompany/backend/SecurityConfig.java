@@ -12,13 +12,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     // Vollständig ausgenommene Pfade: keine Security-Filter
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers(
-            
-            "/resources/**"
-        );
-    }
+   @Bean
+public WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.ignoring().requestMatchers(
+        "/resources/**",
+        "/static/**",
+        "/css/**",
+        "/js/**",
+        "/images/**"
+    );
+}
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
