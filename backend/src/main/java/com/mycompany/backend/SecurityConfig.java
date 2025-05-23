@@ -23,7 +23,7 @@ public class SecurityConfig {
             "/**/*.js",
             "/**/*.png",
 "/static/**",
-     
+     "/home/**",
             "/favicon.ico"
         );
     }
@@ -31,7 +31,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Für Tests ggf. deaktivieren, später aktivieren
+            .csrf(csrf -> csrf.disable())// Für Tests ggf. deaktivieren, später aktivieren
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/login").permitAll()
