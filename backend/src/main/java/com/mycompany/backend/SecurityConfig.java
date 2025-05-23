@@ -2,36 +2,44 @@ package com.mycompany.backend;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
-    // Vollständig ausgenommene Pfade: keine Security-Filter
-   @Bean
-public WebSecurityCustomizer webSecurityCustomizer() {
-    return (web) -> web.ignoring().requestMatchers(
-        "/resources/**",
-        "/static/**",
-        "/css/**",
-        "/js/**",
-        "/images/**"
-    );
-}
-
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        // Ignoriere alle statischen Ressourcen komplett
+        return (web) -> web.ignoring().requestMatchers(
+            "/**/*.css",
+            "/**/*.js",
+            "/**/*.png",
+            "/**/*.jpg",
+            "/**/*.jpeg",
+            "/**/*.gif",
+            "/**/*.svg",
+            "/**/*.ico",
+            "/favicon.ico"
+        );
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf() // CSRF bleibt aktiviert
-                .and()
+            .csrf(csrf -> csrf.disable()) // Für Tests ggf. deaktivieren, später aktivieren
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/admin/**").hasRole("ADMIN")  // Admins nur für /admin/**
-                .anyRequest().authenticated()  // alle anderen URLs brauchen Authentifizierung
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/login").permitAll()
+                .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
@@ -46,7 +54,8 @@ public WebSecurityCustomizer webSecurityCustomizer() {
             );
 
         return http.build();
-    }
+    
+}
 
     @Bean
     public PasswordEncoder passwordEncoder() {
