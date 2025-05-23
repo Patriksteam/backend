@@ -1,46 +1,36 @@
 package com.mycompany.backend;
 
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        // Ignoriere gängige statische Ressourcen automatisch
-        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Für Tests ggf. deaktivieren, später aktivieren
+            .csrf() // CSRF bleibt aktiviert
+                .and()
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/login").permitAll()
-                .anyRequest().authenticated()
-            )
+                    .requestMatchers("/**").permitAll() // Nur zum Testen!
+   //.requestMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg").permitAll()
+    .anyRequest().authenticated()
+)
+
             .formLogin(form -> form
-                .loginPage("/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/profil", true)
-                .permitAll()
-            )
+          .loginPage("/login")
+          .usernameParameter("email") // Hier ändern
+          .passwordParameter("password")
+          .defaultSuccessUrl("/profil", true)
+          .permitAll()
+      )
             .logout(logout -> logout
                 .logoutSuccessUrl("/")
                 .permitAll()
@@ -54,4 +44,5 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
 
