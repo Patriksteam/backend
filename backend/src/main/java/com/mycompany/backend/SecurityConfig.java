@@ -19,8 +19,8 @@ public class SecurityConfig {
             .csrf() // CSRF bleibt aktiviert
                 .and()
             .authorizeHttpRequests(authorize -> authorize
-                    
-    .requestMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg").permitAll()
+            .requestMatchers("/**").permitAll() // Nur zum Testen!        
+    //.requestMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg").permitAll()
     .anyRequest().authenticated()
 )
 
