@@ -20,7 +20,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             .and()
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers("/admin/**").hasRole("ADMIN")  // Admins nur für /admin/**
-            .requestMatchers("/login","/static/**","/styles.css","/styles1.css","/styles2.css").permitAll()  // öffentliche Ressourcen
+            .requestMatchers("/login","/static/**","/styles.css","/styles1.css","/styles2.css","/resources").permitAll()  // öffentliche Ressourcen
             .anyRequest().authenticated()  // alle anderen URLs brauchen Authentifizierung
         )
         .formLogin(form -> form
