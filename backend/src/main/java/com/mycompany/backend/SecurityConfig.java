@@ -16,13 +16,6 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
             "/login",
-            "/static/**",
-            "/css/**",
-            "/js/**",
-            "/images/**",
-            "/styles.css",
-            "/styles1.css",
-            "/styles2.css",
             "/resources/**"
         );
     }
