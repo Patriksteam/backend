@@ -13,31 +13,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf() // CSRF bleibt aktiviert
-                .and()
-            .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/**").permitAll() // Nur zum Testen!        
-    //.requestMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg").permitAll()
-    .anyRequest().authenticated()
-)
+   @Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf() // CSRF bleibt aktiviert
+            .and()
+        .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/admin/**").hasRole("ADMIN")  // Admins nur für /admin/**
+            .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()  // öffentliche Ressourcen
+            .anyRequest().authenticated()  // alle anderen URLs brauchen Authentifizierung
+        )
+        .formLogin(form -> form
+            .loginPage("/login")
+            .usernameParameter("email")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/profil", true)
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutSuccessUrl("/")
+            .permitAll()
+        );
 
-            .formLogin(form -> form
-          .loginPage("/login")
-          .usernameParameter("email") // Hier ändern
-          .passwordParameter("password")
-          .defaultSuccessUrl("/profil", true)
-          .permitAll()
-      )
-            .logout(logout -> logout
-                .logoutSuccessUrl("/")
-                .permitAll()
-            );
+    return http.build();
+}
 
-        return http.build();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
