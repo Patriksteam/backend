@@ -1,6 +1,5 @@
 package com.mycompany.backend;
 
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-
+import org.springframework.security.web.util.matcher.PathRequest;
 
 @Configuration
 @EnableWebSecurity
@@ -17,21 +16,14 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        // Ignoriere alle statischen Ressourcen komplett
-        return (web) -> web.ignoring().requestMatchers(
-            "/**/*.css",
-            "/**/*.js",
-            "/**/*.png",
-"/static/**",
-     "/home/**",
-            "/favicon.ico"
-        );
+        // Ignoriere gängige statische Ressourcen automatisch
+        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())// Für Tests ggf. deaktivieren, später aktivieren
+            .csrf(csrf -> csrf.disable()) // Für Tests ggf. deaktivieren, später aktivieren
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/login").permitAll()
@@ -50,13 +42,11 @@ public class SecurityConfig {
             );
 
         return http.build();
-    
-}
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
-
 
