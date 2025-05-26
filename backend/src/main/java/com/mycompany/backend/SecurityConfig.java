@@ -10,19 +10,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-   @Bean
+
+@Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .csrf().and()
-        .authorizeHttpRequests(authorize -> authorize
-            // Öffentliche Endpunkte
+        .authorizeHttpRequests(auth -> auth
             .requestMatchers("/login", "/userForm", 
                     "/home", "/partner", "/support", "/ueber_uns",
                     "/*.css", "/*.js", "/*.png", "/*.jpg",
                     "/*.woff2", "/*.svg").permitAll()
 
-            // Für alles andere:
-            .anyRequest().access("hasRole('ADMIN') or isAuthenticated()")
+            .anyRequest().access((Authentication authentication, RequestAuthorizationContext context) -> {
+                boolean isAdmin = authentication != null &&
+                        authentication.getAuthorities().stream()
+                            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+                boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+                return new AuthorizationDecision(isAdmin || isAuthenticated);
+            })
         )
         .formLogin(form -> form
             .loginPage("/login")
@@ -41,12 +46,5 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
     return http.build();
 }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-}
-
 
 
