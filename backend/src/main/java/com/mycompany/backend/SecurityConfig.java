@@ -19,7 +19,7 @@ public class SecurityConfig {
         http
             .csrf().and()
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/userForm", "/reset-db",
+                .requestMatchers("/login", "/userForm", "/admin/reset-db",
                         "/home", "/partner", "/support", "/ueber_uns",
                         "/*.css", "/*.js", "/*.png", "/*.jpg",
                         "/*.woff2", "/*.svg").permitAll()
