@@ -2,13 +2,10 @@ package com.mycompany.backend;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-
 
 @Configuration
 public class SecurityConfig {
@@ -16,22 +13,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf() // CSRF bleibt aktiviert
-                .and()
+            .csrf().and() // CSRF bleibt aktiviert (gut für Form-Login)
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/**").permitAll() // Nur zum Testen!
-   //.requestMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg").permitAll()
-    .anyRequest().authenticated()
-)
-
+                // Öffentliche Endpunkte (Login, Registrierung, statische Dateien)
+                .requestMatchers("/login", "/register", "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.woff2", "/**/*.svg").permitAll()
+                // Alle anderen müssen authentifiziert sein
+                .anyRequest().authenticated()
+            )
             .formLogin(form -> form
-          .loginPage("/login")
-          .usernameParameter("email") // Hier ändern
-          .passwordParameter("password")
-          .defaultSuccessUrl("/profil", true)
-          .permitAll()
-      )
+                .loginPage("/login")
+                .usernameParameter("email") // angepasst an Formularfeld
+                .passwordParameter("password")
+                .defaultSuccessUrl("/profil", true)
+                .permitAll()
+            )
             .logout(logout -> logout
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/")
                 .permitAll()
             );
@@ -44,5 +43,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
 
 
