@@ -16,7 +16,7 @@ public class SecurityConfig {
             .csrf().and() // CSRF bleibt aktiviert (gut für Form-Login)
             .authorizeHttpRequests(authorize -> authorize
                 // Öffentliche Endpunkte (Login, Registrierung, statische Dateien)
-                .requestMatchers("/login", "/userFrom", 
+                .requestMatchers("/login", "/userForm", 
                         "/home","/partner","/support","/ueber_uns",
                        "/*.css", "/*.js", "/*.png", "/*.jpg",
                        "/*.woff2", "/*.svg").permitAll()
