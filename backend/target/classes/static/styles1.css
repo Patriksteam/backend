@@ -1,0 +1,66 @@
+/* Allgemeine Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Fehler-Container Styling */
+.error-container {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+}
+
+/* Kopfzeile */
+h1 {
+    color: #dc3545;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Text Styling */
+p {
+    font-size: 1rem;
+    color: #333;
+    margin: 10px 0;
+}
+
+/* Stärkung des Fehlercodes */
+strong {
+    font-size: 1.2rem;
+    color: #e83e8c;
+}
+
+/* Link zur Homepage */
+.home-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.home-link:hover {
+    background-color: #0056b3;
+}
+
+.home-link:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+

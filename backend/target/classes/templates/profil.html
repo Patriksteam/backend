@@ -1,0 +1,16 @@
+<!-- Zeigt nur, wenn User eingeloggt ist -->
+<div th:if="${#authentication.authenticated}">
+    <p>Angemeldet als: <b th:text="${#authentication.name}">[Nutzer]</b></p>
+
+    <!-- Admin-Link -->
+    <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+        <a href="/admin">Zur Admin-Seite</a>
+    </div>
+
+    <!-- Logout -->
+    <form th:action="@{/logout}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
