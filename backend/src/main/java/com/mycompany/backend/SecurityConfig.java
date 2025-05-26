@@ -15,43 +15,56 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf().and()
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/userForm", "/admin/reset-db",
-                        "/home", "/partner", "/support", "/ueber_uns",
-                        "/*.css", "/*.js", "/*.png", "/*.jpg",
-                        "/*.woff2", "/*.svg").permitAll()
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf().and()
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(
+                "/login", "/userForm",
+                "/home", "/partner", "/support", "/ueber_uns",
+                "/*.css", "/*.js", "/*.png", "/*.jpg",
+                "/*.woff2", "/*.svg"
+            ).permitAll()
+            .anyRequest().access(adminOverridesEverything())
+        )
+        .formLogin(form -> form
+            .loginPage("/login")
+            .usernameParameter("email")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/profil", true)
+            .permitAll()
+        )
+        .rememberMe(remember -> remember
+            .key("ein_geheimer_key_12345") // unbedingt anpassen!
+            .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 Tage
+            .rememberMeParameter("remember-me")
+        )
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID", "remember-me")
+            .logoutSuccessUrl("/")
+            .permitAll()
+        );
 
-                .anyRequest().access(adminOrAuthenticated())
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/profil", true)
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/")
-                .permitAll()
-            );
+    return http.build();
+}
 
-        return http.build();
-    }
 
-    private AuthorizationManager<RequestAuthorizationContext> adminOrAuthenticated() {
+    // Zugriffskontrolle: Admins dürfen alles, andere nur wenn authentifiziert
+    private AuthorizationManager<RequestAuthorizationContext> adminOverridesEverything() {
         return (authenticationSupplier, context) -> {
-            Authentication authentication = authenticationSupplier.get();
-            boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
-            boolean isAdmin = authentication != null && authentication.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+            Authentication auth = authenticationSupplier.get();
 
-            return new AuthorizationDecision(isAdmin || isAuthenticated);
+            boolean isAdmin = auth != null && auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+            if (isAdmin) {
+                return new AuthorizationDecision(true); // Admins dürfen alles
+            }
+
+            boolean isAuthenticated = auth != null && auth.isAuthenticated();
+            return new AuthorizationDecision(isAuthenticated); // andere nur, wenn eingeloggt
         };
     }
 
@@ -60,5 +73,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
 
 
